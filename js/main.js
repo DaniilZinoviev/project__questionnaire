@@ -1,33 +1,50 @@
 // Global variables
 let textBlock = document.getElementsByClassName('main-text')[0];
 let buttons = document.getElementsByClassName('buttons')[0];
-let id = 0;
 
-buttons.addEventListener('click', (e) => step(e));
+buttons.addEventListener('click', (e) => handleClick(e));
 
-function step(event) {
+function handleClick(e) {
     if (event.target.tagName != 'BUTTON') return;
     let btnChoise = event.target.getAttribute('data-choose');
 
-    // Change current data-object
-    id = data[id].options[btnChoise - 1].moveTo;
-
-    if (!data[id].result) {
-        // if "result" doesn't is
-        // Change text 
-        textBlock.textContent = data[id].question;
-
-        // Change button's texts
-        for (let i = 0; i < buttons.children.length; i++) {
-            buttons.children[i].textContent = data[id].options[i].choise;
-            buttons.children[i].setAttribute('data-choose', data[id].options[i].moveTo);
-        }
-    } else {
-        // if "result" is
-        buttons.innerHTML = '';
-
-        textBlock.textContent = data[id].result;
-    }
-
-    
+    step(btnChoise);
 }
+
+function step(int) {
+    if (data[int].result) {
+        // Show answer
+        buttons.innerHTML = '';
+        textBlock.innerHTML = `Вам больше всего подходит: <b>${data[int].result}</b>!`;
+        
+        // experimental: Add refresh button
+        let reloadButton = document.createElement('button');
+        reloadButton.className = 'btn btn-reload';
+        reloadButton.textContent = 'Обновить';
+        reloadButton.onclick = function() {
+            window.location.reload();
+        }
+        buttons.appendChild(reloadButton);
+        return;
+    }    
+
+    // Change text 
+    textBlock.textContent = data[int].question;
+
+    // Render data options via buttons
+    renderButtons(data[int]);
+}
+
+function renderButtons(currentDataObject) {
+    buttons.innerHTML = "";
+    for (let i = 0; i < currentDataObject.options.length; i++) {
+        let newButton = document.createElement('button');
+        newButton.className = 'btn';
+        newButton.textContent = currentDataObject.options[i].userChoice;
+        newButton.setAttribute('data-choose', currentDataObject.options[i].moveTo);
+        buttons.appendChild(newButton);
+    }
+}
+
+// Initial Rendering
+step(0);

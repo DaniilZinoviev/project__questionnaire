@@ -1,16 +1,29 @@
-main {
-    margin: 40px auto;
-    font-size: 16px;
+.questionnaire {
+    margin: 0 auto;
+    font-size: 18px;
     text-align: center;
+    font-family: 'PT Serif', serif;
 }
 .main-text {
     max-width: 400px;
     text-align: center;
-    margin: 0 auto;
+    margin: 50px auto;
     margin-bottom: 20px;
 }
 
 .btn {
     display: block;
     margin: 5px auto;
+}
+
+.btn-reload {
+    background-color: #333;
+    color: #ffffff;
+    padding: 6px 8px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+.btn-reload:hover {
+    opacity: 0.9;
 }
